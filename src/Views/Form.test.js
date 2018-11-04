@@ -10,7 +10,7 @@ describe('render', ()=>{
                 upper:1
             }
         }
-        const form=mount(<Form fields={fields}/>)
+        const form=mount(<Form fields={fields} onSubmit={()=>{}}/>)
         expect(form).toBeDefined()
     })
 })
@@ -36,7 +36,7 @@ describe('functionality', ()=>{
                 upper:1
             }
         }
-        const form=mount(<Form fields={fields}/>)
+        const form=mount(<Form fields={fields} onSubmit={()=>{}}/>)
         expect(form.find(TextField).length).toEqual(1)
     })
     it('shows error when input is beyond bound', ()=>{
@@ -47,7 +47,7 @@ describe('functionality', ()=>{
                 value:-2
             }
         }
-        const form=mount(<Form fields={fields}/>)
+        const form=mount(<Form fields={fields} onSubmit={()=>{}}/>)
 
         const field=form.find(TextField)
         expect(field.props().label).toEqual('Value out of bounds')
