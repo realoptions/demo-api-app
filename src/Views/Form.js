@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import TextField from '@material-ui/core/TextField'
+import Button from '@material-ui/core/Button'
 import PropTypes from 'prop-types'
 export const errorHandler=({lower, upper, name}, inputValue)=>{
     if(
@@ -14,10 +15,17 @@ export const errorHandler=({lower, upper, name}, inputValue)=>{
 }
 
 const onChange=(key, state, fn)=>e=>fn({...state, [key]:{...state[key], value:e.target.value}})
-
-const Form=({fields})=>{
+const onSubmitHOC=(fieldState, onSubmit)=>e=>{
+    e.preventDefault()
+    onSubmit(fieldState)
+}
+const Form=({fields, onSubmit})=>{
     const [fieldState, setFieldStateValue] = useState(fields)
-    return <form>
+    return (
+    <form 
+            onSubmit={onSubmitHOC(fieldState, onSubmit)} 
+            noValidate autoComplete="off"
+    >
         {Object.entries(fieldState).map(([name, {lower, upper, value=''}])=>(
             <TextField
                 {...errorHandler({lower, upper, name}, value)}
@@ -26,9 +34,12 @@ const Form=({fields})=>{
                 onChange={onChange(name, fieldState, setFieldStateValue)}
             />
         ))}
+        <Button type='submit'>Submit</Button>
     </form>
+    )
 }
 Form.propTypes={
-    fields:PropTypes.object.isRequired
+    fields:PropTypes.object.isRequired,
+    onSubmit:PropTypes.func.isRequired
 }
 export default Form

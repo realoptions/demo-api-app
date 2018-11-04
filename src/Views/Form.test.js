@@ -53,4 +53,22 @@ describe('functionality', ()=>{
         expect(field.props().label).toEqual('Value out of bounds')
         expect(field.props().error).toEqual(true)
     })
+    it('submits state when onSubmit is typed', ()=>{
+        const fields={
+            'some name':{
+                lower:-1,
+                upper:1,
+                value:-2
+            }
+        }
+        const form=mount(<Form fields={fields} onSubmit={fieldState=>{
+            expect(fieldState).toEqual({'some name':{
+                lower:-1,
+                upper:1,
+                value:-2
+            }})  
+        }}/>)
+
+        form.find('form').simulate('submit')
+    })
 })
