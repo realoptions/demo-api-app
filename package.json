@@ -10,9 +10,7 @@
     "react-dom": "^16.7.0-alpha.0",
     "react-scripts": "2.1.1",
     "realoptions-node-sdk": "0.0.1",
-    "save-dev": "^2.0.0",
-    "typeface-roboto": "0.0.54",
-    "victory": "^30.6.0"
+    "typeface-roboto": "0.0.54"
   },
   "scripts": {
     "start": "react-scripts start",
