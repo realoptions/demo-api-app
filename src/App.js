@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Form from './Views/Form'
+import MenuBar from './Components/MenuBar'
 import './App.css';
 const fields={
   'some name':{
@@ -11,7 +11,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Form fields={fields}/>
+        <MenuBar options={['heston']}/>
       </div>
     );
   }
