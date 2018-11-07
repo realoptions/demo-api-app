@@ -11,14 +11,26 @@ import { withStyles } from '@material-ui/core/styles'
 import { connect } from 'react-redux'
 import ApiKey from './ApiKey'
 import {updateFields} from '../Actions/api'
+
 const styles = {
     grow: {
       flexGrow: 1,
     }
 }
-const convertOptionsToLabel=(options, selectedName)=>options.find(({name})=>name===selectedName).label
-const convertOptionsToName=(options, selectedLabel)=>options.find(({label})=>label===selectedLabel).name
-export const MenuBar=withStyles(styles)(({options, onSelect, selected, mdlfn, classes})=>{
+
+const convertOptionsToLabel=(
+    options, 
+    selectedName
+)=>options.find(({name})=>name===selectedName).label
+
+const convertOptionsToName=(
+    options, 
+    selectedLabel
+)=>options.find(({label})=>label===selectedLabel).name
+
+export const MenuBar=withStyles(styles)(({
+    options, onSelect, selected, mdlfn, classes
+})=>{
     const [open, setOpen]=useState(null)
     const onClick=e=>setOpen(e.currentTarget)
     const onChoice=e=>{
@@ -76,7 +88,9 @@ MenuBar.propTypes={
 }
 const mapStateToProps=({models, mdlfn})=>({...models, mdlfn})
 const mapDispatchToProps=dispatch=>({
-    onSelect:(selected, value, realoptions)=>selected!==value&&updateFields(dispatch, value)
+    onSelect:(
+        selected, value, realoptions
+    )=>selected!==value&&updateFields(dispatch, value)
 })
 export default connect(
     mapStateToProps,
