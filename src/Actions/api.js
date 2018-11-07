@@ -9,10 +9,10 @@ export const updateFields=(dispatch, selectedModel, realoptions)=>{
         value:selectedModel
     })
     if(realoptions){
-        realoptions[selectedModel].constraints().then(constraints=>{
+        realoptions[selectedModel].constraints().then(value=>{
             dispatch({
                 type:UPDATE_CONSTRAINTS,
-                constraints
+                value
             })
         })
     }
@@ -37,7 +37,7 @@ export const updateRiskMetrics=(dispatch, selectedModel, parameters, realoptions
         })
     }
 }
-export const density=(
+export const updateOptions=(
     dispatch, selectedModel, parameters, 
     optionType, sensitivityType, realoptions
 )=>{
