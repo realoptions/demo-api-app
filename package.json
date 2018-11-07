@@ -19,7 +19,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "download-docs": "./mockserver/fetch_yaml.sh",
+    "mock-api": "nohup ./mockserver/apisprout ./mockserver/openapi.yaml &"
   },
   "eslintConfig": {
     "extends": "react-app"

@@ -8,20 +8,26 @@ import PropTypes from 'prop-types'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
-import {SELECT_MODEL} from '../Actions/constants'
 import { connect } from 'react-redux'
-
+import ApiKey from './ApiKey'
+import {updateFields} from '../Actions/api'
 const styles = {
     grow: {
       flexGrow: 1,
     }
 }
-export const MenuBar=({options, onSelect, selected, classes})=>{
+const convertOptionsToLabel=(options, selectedName)=>options.find(({name})=>name===selectedName).label
+const convertOptionsToName=(options, selectedLabel)=>options.find(({label})=>label===selectedLabel).name
+export const MenuBar=withStyles(styles)(({options, onSelect, selected, mdlfn, classes})=>{
     const [open, setOpen]=useState(null)
     const onClick=e=>setOpen(e.currentTarget)
     const onChoice=e=>{
         setOpen(null)
-        onSelect(e.target.innerText)
+        onSelect(
+            selected, 
+            convertOptionsToName(options, e.target.innerText),
+            mdlfn
+        )
     }
     const onClose=()=>setOpen(null)
     return (
@@ -31,9 +37,10 @@ export const MenuBar=({options, onSelect, selected, classes})=>{
                 variant="h6" color="inherit" 
                 noWrap
             >
-                Options: {selected}
+                Options: {convertOptionsToLabel(options, selected)}
             </Typography>
             <div className={classes.grow} />
+            <ApiKey/>
             <IconButton
                 aria-label="More"
                 aria-owns={open ? 'long-menu' : undefined}
@@ -49,27 +56,29 @@ export const MenuBar=({options, onSelect, selected, classes})=>{
                 open={open===null?false:true}
                 onClose={onClose}
             >
-                {options.map(option => (
-                    <MenuItem key={option} onClick={onChoice}>
-                    {option}
+                {options.map(({label, name}) => (
+                    <MenuItem key={name} onClick={onChoice}>
+                    {label}
                     </MenuItem>
                 ))}
             </Menu>
         </Toolbar>
     </AppBar>
     )
-}
+})
 MenuBar.propTypes={
-    options:PropTypes.arrayOf(PropTypes.string).isRequired,
-    classes:PropTypes.object.isRequired,
+    options:PropTypes.arrayOf(PropTypes.shape({
+        name:PropTypes.string.isRequired,
+        label:PropTypes.string.isRequired
+    })).isRequired,
     onSelect:PropTypes.func.isRequired,
     selected:PropTypes.string.isRequired
 }
-const mapStateToProps=({models})=>models
+const mapStateToProps=({models, mdlfn})=>({...models, mdlfn})
 const mapDispatchToProps=dispatch=>({
-    onSelect:value=>dispatch({type:SELECT_MODEL, value})
+    onSelect:(selected, value, realoptions)=>selected!==value&&updateFields(dispatch, value)
 })
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(withStyles(styles)(MenuBar))
+)(MenuBar)

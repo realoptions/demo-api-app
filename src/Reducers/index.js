@@ -1,8 +1,10 @@
 import models from './models'
-import apikey from './apikey'
+import mdlfn from './mdlfn'
+import constraints from './constraints'
 import {combineReducers} from 'redux'
 
 export default combineReducers({
     models,
-    apikey
+    mdlfn,
+    constraints
 })

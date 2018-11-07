@@ -1,16 +1,12 @@
 import React, { Component } from 'react'
 import BottomBar from './Components/BottomBar'
-import './App.css';
-const fields={
-  'some name':{
-      lower:-1,
-      upper:1
-  }
-}
+import MenuBar from './Components/MenuBar'
+import './App.css'
 class App extends Component {
   render() {
     return (
       <div className="App">
+        <MenuBar/>
         <BottomBar/>
       </div>
     )

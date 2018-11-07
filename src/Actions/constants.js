@@ -1,2 +1,3 @@
 export const SELECT_MODEL='SELECT_MODEL'
-export const API_KEY='API_KEY'
+export const UPDATE_API='UPDATE_API'
+export const UPDATE_CONSTRAINTS='UPDATE_CONSTRAINTS'

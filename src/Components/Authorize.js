@@ -8,8 +8,8 @@ const onSubmitHOC=(api, onSubmit)=>e=>{
     e.preventDefault()
     onSubmit(api)
 }
-const Authorize=({onSubmit})=>{
-    const [apiState, setApiState] = useState('')
+const Authorize=({onSubmit, defaultValue})=>{
+    const [apiState, setApiState] = useState(defaultValue||'')
     return (
     <form 
             onSubmit={onSubmitHOC(apiState, onSubmit)} 
@@ -18,6 +18,7 @@ const Authorize=({onSubmit})=>{
         <TextField
             value={apiState}
             onChange={onChange(apiState, setApiState)}
+            autoFocus
         />
         <Button type='submit'>Submit</Button>
     </form>

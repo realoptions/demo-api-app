@@ -1,7 +1,16 @@
 import {combineReducers} from 'redux'
 import {SELECT_MODEL} from '../Actions/constants'
-const initState=['Heston', 'CGMY', 'Merton']
-const initSelect='Heston'
+const initState=[{
+    name:'heston',
+    label:'Heston'
+},{
+    name:'cgmy',
+    label:'CGMY'
+},{
+    name:'merton',
+    label:'Merton'
+}]
+const initSelect='heston'
 
 
 const options=(state=initState, action)=>{
