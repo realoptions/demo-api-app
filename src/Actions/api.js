@@ -3,54 +3,100 @@ import {
     UPDATE_CONSTRAINTS, UPDATE_RISK_METRIC,
     UPDATE_DENSITY, UPDATE_OPTIONS
 } from './constants'
-export const updateFields=(dispatch, selectedModel, realoptions)=>{
+//exported for testing
+export const getCacheResult=(existingValue, fn)=>{
+    if(existingValue){
+        return Promise.resolve(existingValue)
+    }
+    else{
+        return fn()
+    }
+}
+export const updateFields=({
+    dispatch, selectedModel, 
+    realOptions, existingValue
+})=>{
     dispatch({
         type:SELECT_MODEL,
         value:selectedModel
     })
-    if(realoptions){
-        realoptions[selectedModel].constraints().then(value=>{
-            dispatch({
-                type:UPDATE_CONSTRAINTS,
-                value
-            })
-        })
+    if(!realOptions){
+        return
     }
-}
-export const updateDensity=(dispatch, selectedModel, parameters, realoptions)=>{
-    if(realoptions){
-        realoptions[selectedModel].density(parameters).then(value=>{
-            dispatch({
-                type:UPDATE_DENSITY,
-                value
-            })
+    getCacheResult(
+        existingValue, 
+        realOptions[selectedModel].constraints
+    ).then(value=>{
+        dispatch({
+            type:UPDATE_CONSTRAINTS,
+            value
         })
-    }
+    })
 }
-export const updateRiskMetrics=(dispatch, selectedModel, parameters, realoptions)=>{
-    if(realoptions){
-        realoptions[selectedModel].riskmetric(parameters).then(value=>{
-            dispatch({
-                type:UPDATE_RISK_METRIC,
-                value
-            })
+export const updateDensity=({
+    dispatch, selectedModel, 
+    parameters, realOptions, 
+    existingValue
+})=>{
+    if(!realOptions){
+        return
+    }
+    getCacheResult(
+        existingValue, 
+        ()=>realOptions[selectedModel].density(parameters)
+    ).then(value=>{
+        dispatch({
+            type:UPDATE_DENSITY,
+            value
         })
-    }
+    })
 }
-export const updateOptions=(
+export const updateRiskMetrics=({
+    dispatch, selectedModel, 
+    parameters, realOptions
+})=>{
+    if(!realOptions){
+        return
+    }
+    realOptions[selectedModel].riskmetric(parameters).then(value=>{
+        dispatch({
+            type:UPDATE_RISK_METRIC,
+            value
+        })
+    })
+}
+export const updateOptions=({
     dispatch, selectedModel, parameters, 
-    optionType, sensitivityType, realoptions
-)=>{
-    if(realoptions){
-        realoptions[selectedModel].options(
-            parameters, optionType, 
-            sensitivityType
-        ).then(value=>{
-            dispatch({
-                type:UPDATE_OPTIONS,
-                value
-            })
-        })
+    optionType, sensitivityType, realOptions
+})=>{
+    if(!realOptions){
+        return
     }
-    
+    realOptions[selectedModel].options(
+        parameters, optionType, 
+        sensitivityType
+    ).then(value=>{
+        dispatch({
+            type:UPDATE_OPTIONS,
+            value
+        })
+    })
 }
+export const updateAllGraphs=({
+    dispatch, selectedModel, parameters, 
+    optionType, sensitivityType, realOptions
+})=>Promise.all([
+    updateDensity({
+        dispatch, selectedModel, 
+        parameters, realOptions
+    }),
+    updateRiskMetrics({
+        dispatch, selectedModel,
+        parameters, realOptions
+    }),
+    updateOptions({
+        dispatch, selectedModel,
+        parameters, optionType, 
+        sensitivityType, realOptions
+    })
+])
