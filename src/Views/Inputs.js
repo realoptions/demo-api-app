@@ -12,8 +12,8 @@ export const Inputs = ({
   mdlfn,
   constraints,
   updateAllGraphs
-}) => {
-  ;<NoApiKey>
+}) => (
+  <NoApiKey>
     <Async promiseFn={updateFields(mdlfn, constraints, selected)}>
       <Async.Resolved>
         {() => (
@@ -28,7 +28,7 @@ export const Inputs = ({
       </Async.Loading>
     </Async>
   </NoApiKey>
-}
+)
 Inputs.propTypes = {
   selected: PropTypes.string.isRequired,
   updateFields: PropTypes.func.isRequired,

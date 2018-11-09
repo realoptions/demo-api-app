@@ -26,14 +26,15 @@ export const updateFields = ({
   if (!realOptions) {
     return
   }
-  getCacheResult(existingValue, realOptions[selectedModel].constraints).then(
-    value => {
-      dispatch({
-        type: UPDATE_CONSTRAINTS,
-        value
-      })
-    }
-  )
+  return getCacheResult(
+    existingValue,
+    realOptions[selectedModel].constraints
+  ).then(value => {
+    dispatch({
+      type: UPDATE_CONSTRAINTS,
+      value
+    })
+  })
 }
 export const updateDensity = ({
   dispatch,
@@ -44,7 +45,7 @@ export const updateDensity = ({
   if (!realOptions) {
     return
   }
-  realOptions[selectedModel].density(parameters).then(value => {
+  return realOptions[selectedModel].density(parameters).then(value => {
     dispatch({
       type: UPDATE_DENSITY,
       value
@@ -60,7 +61,7 @@ export const updateRiskMetrics = ({
   if (!realOptions) {
     return
   }
-  realOptions[selectedModel].riskmetric(parameters).then(value => {
+  return realOptions[selectedModel].riskmetric(parameters).then(value => {
     dispatch({
       type: UPDATE_RISK_METRIC,
       value
@@ -78,7 +79,7 @@ export const updateOptions = ({
   if (!realOptions) {
     return
   }
-  realOptions[selectedModel]
+  return realOptions[selectedModel]
     .options(parameters, optionType, sensitivityType)
     .then(value => {
       dispatch({
