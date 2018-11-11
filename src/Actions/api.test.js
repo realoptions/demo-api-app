@@ -16,7 +16,7 @@ import {
 const mockRO = {
   model: {
     riskmetric: () => Promise.resolve('hello'),
-    options: () => Promise.resolve('hello'),
+    options: () => Promise.resolve(['hello', 'hello']),
     density: () => Promise.resolve('hello'),
     constraints: () => Promise.resolve('hello')
   }
@@ -127,7 +127,7 @@ describe('updateOptions', () => {
         expect(dispatch.mock.calls.length).toBe(1),
         expect(dispatch.mock.calls[1][0]).toEqual({
           type: UPDATE_OPTIONS,
-          value: 'hello'
+          value: { call: 'hello', put: 'hello' }
         })
       ])
     })

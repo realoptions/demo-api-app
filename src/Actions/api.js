@@ -72,21 +72,26 @@ export const updateOptions = ({
   dispatch,
   selectedModel,
   parameters,
-  optionType,
   sensitivityType,
   realOptions
 }) => {
   if (!realOptions) {
     return
   }
-  return realOptions[selectedModel]
-    .options(parameters, optionType, sensitivityType)
-    .then(value => {
-      dispatch({
-        type: UPDATE_OPTIONS,
-        value
-      })
+  return Promise.all([
+    realOptions[selectedModel].options(
+      parameters,
+      'call',
+      sensitivityType,
+      true
+    ),
+    realOptions[selectedModel].options(parameters, 'put', sensitivityType, true)
+  ]).then(([call, put]) => {
+    dispatch({
+      type: UPDATE_OPTIONS,
+      value: { call, put }
     })
+  })
 }
 export const updateAllGraphs = ({
   dispatch,

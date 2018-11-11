@@ -6,11 +6,8 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
 import modelApp from './Reducers'
-const theme = createMuiTheme({
-  typography: {
-    useNextVariants: true
-  }
-})
+import Theme from './Themes'
+const theme = createMuiTheme(Theme)
 const store = createStore(modelApp)
 class App extends Component {
   render() {

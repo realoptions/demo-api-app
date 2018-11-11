@@ -5,14 +5,14 @@
   "dependencies": {
     "@material-ui/core": "^3.3.2",
     "@material-ui/icons": "^3.0.1",
-    "option-charts": "0.0.1",
+    "option-charts": "0.0.4",
     "prop-types": "^15.6.2",
     "react": "^16.7.0-alpha.0",
     "react-async": "^3.8.1",
     "react-dom": "^16.7.0-alpha.0",
     "react-redux": "^5.1.0",
     "react-scripts": "2.1.1",
-    "realoptions-node-sdk": "0.0.1",
+    "realoptions-node-sdk": "0.0.2",
     "redux": "^4.0.1",
     "typeface-roboto": "0.0.54"
   },
