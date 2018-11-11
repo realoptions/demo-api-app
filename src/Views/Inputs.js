@@ -32,6 +32,7 @@ export const Inputs = ({
 Inputs.propTypes = {
   selected: PropTypes.string.isRequired,
   updateFields: PropTypes.func.isRequired,
+  updateAllGraphs: PropTypes.func.isRequired,
   mdlfn: PropTypes.object,
   constraints: PropTypes.object
 }

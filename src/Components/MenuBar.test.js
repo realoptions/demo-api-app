@@ -11,11 +11,13 @@ let store
 beforeEach(() => {
   store = createStore(reducer)
 })
+const onSelect = () => {}
 describe('render', () => {
   it('renders', () => {
+    const options = [{ name: 'hello', label: 'Hello' }]
     const m = mount(
       <Provider store={store}>
-        <MenuBar options={[{ name: 'hello', label: 'Hello' }]} />
+        <MenuBar options={options} onSelect={onSelect} selected="hello" />
       </Provider>
     )
     expect(m).toBeDefined()
@@ -23,9 +25,10 @@ describe('render', () => {
 })
 describe('functionality', () => {
   it('has a vertical menu button', () => {
+    const options = [{ name: 'hello', label: 'Hello' }]
     const m = mount(
       <Provider store={store}>
-        <MenuBar options={[{ name: 'hello', label: 'Hello' }]} />
+        <MenuBar options={options} onSelect={onSelect} selected="hello" />
       </Provider>
     )
     expect(m.find(MoreVertIcon).length).toEqual(1)
@@ -47,7 +50,7 @@ describe('functionality', () => {
     ]
     const m = mount(
       <Provider store={store}>
-        <MenuBar options={options} />
+        <MenuBar options={options} onSelect={onSelect} selected="heston" />
       </Provider>
     )
     m.find(IconButton)
@@ -56,7 +59,7 @@ describe('functionality', () => {
     const menuItems = m.find(MenuItem)
     expect(menuItems.length).toEqual(options.length)
     menuItems.forEach(node => {
-      expect(options.find(v => v === node.text())).toBeDefined()
+      expect(options.find(({ label }) => label === node.text())).toBeDefined()
     })
   })
 })
