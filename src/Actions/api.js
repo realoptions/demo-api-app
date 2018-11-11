@@ -17,7 +17,7 @@ export const filterIV = callArray =>
   callArray.reduce(
     (aggr, { at_point, value, iv }) => ({
       call: [...aggr.call, { at_point, value }],
-      iv: [...aggr.iv, { at_point, value: iv }]
+      iv: [...aggr.iv, { at_point, iv }]
     }),
     { call: [], iv: [] }
   )

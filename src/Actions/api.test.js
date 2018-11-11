@@ -39,7 +39,7 @@ describe('filterIV', () => {
   it('converts array to two arrays', () => {
     expect(filterIV(testArray)).toEqual({
       call: [{ value: 4, at_point: 3 }],
-      iv: [{ value: 2, at_point: 3 }]
+      iv: [{ iv: 2, at_point: 3 }]
     })
   })
 })
@@ -139,7 +139,7 @@ describe('updateOptions', () => {
           type: UPDATE_OPTIONS,
           value: {
             call: [{ at_point: 3, value: 4 }],
-            iv: [{ at_point: 3, value: 5 }],
+            iv: [{ at_point: 3, iv: 5 }],
             put: 'hello'
           }
         })

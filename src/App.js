@@ -28,7 +28,7 @@ class App extends Component {
               </Switch>
               <Route path={density} component={DensityChart} />
               <Route path={options} component={OptionChart} />
-              <BottomBar />
+              <Route path="/:selected" component={BottomBar} />
             </div>
           </Router>
         </MuiThemeProvider>

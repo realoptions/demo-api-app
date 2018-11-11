@@ -52,5 +52,14 @@
     "hooks": {
       "pre-commit": "lint-staged"
     }
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx}",
+      "!src/setupTests.js",
+      "!src/serviceWorker.js",
+      "!src/index.js"
+    ]
   }
+  
 }

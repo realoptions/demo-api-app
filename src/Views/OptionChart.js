@@ -39,7 +39,7 @@ Option.propTypes = {
   iv: PropTypes.arrayOf(
     PropTypes.shape({
       at_point: PropTypes.number.isRequired,
-      value: PropTypes.number.isRequired
+      iv: PropTypes.number.isRequired
     })
   ).isRequired,
   theme: PropTypes.shape({

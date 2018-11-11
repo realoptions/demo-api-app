@@ -1,11 +1,11 @@
-import pink from '@material-ui/core/colors/pink'
+import orange from '@material-ui/core/colors/orange'
 import teal from '@material-ui/core/colors/teal'
 export default {
   typography: {
     useNextVariants: true
   },
   palette: {
-    primary: pink,
-    secondary: teal
+    primary: teal,
+    secondary: orange
   }
 }

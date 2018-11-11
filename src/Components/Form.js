@@ -49,7 +49,14 @@ const Form = ({ fields, onSubmit, classes }) => {
           />
         )
       )}
-      <Button type="submit">Submit</Button>
+      <Button
+        className={classes.textField}
+        variant="contained"
+        color="secondary"
+        type="submit"
+      >
+        Submit
+      </Button>
     </form>
   )
 }
