@@ -13,6 +13,15 @@ export const getCacheResult = (existingValue, fn) => {
     return fn()
   }
 }
+export const filterIV = callArray =>
+  callArray.reduce(
+    (aggr, { at_point, value, iv }) => ({
+      call: [...aggr.call, { at_point, value }],
+      iv: [...aggr.iv, { at_point, value: iv }]
+    }),
+    { call: [], iv: [] }
+  )
+
 export const updateFields = ({
   dispatch,
   selectedModel,
@@ -36,6 +45,7 @@ export const updateFields = ({
     })
   })
 }
+
 export const updateDensity = ({
   dispatch,
   selectedModel,
@@ -85,11 +95,12 @@ export const updateOptions = ({
       sensitivityType,
       true
     ),
-    realOptions[selectedModel].options(parameters, 'put', sensitivityType, true)
-  ]).then(([call, put]) => {
+    realOptions[selectedModel].options(parameters, 'put', sensitivityType)
+  ]).then(([callAndIV, put]) => {
+    const { call, iv } = filterIV(callAndIV)
     dispatch({
       type: UPDATE_OPTIONS,
-      value: { call, put }
+      value: { call, put, iv }
     })
   })
 }

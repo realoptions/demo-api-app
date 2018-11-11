@@ -11,6 +11,7 @@
     "react-async": "^3.8.1",
     "react-dom": "^16.7.0-alpha.0",
     "react-redux": "^5.1.0",
+    "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.1",
     "realoptions-node-sdk": "0.0.2",
     "redux": "^4.0.1",

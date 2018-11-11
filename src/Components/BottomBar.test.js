@@ -1,10 +1,14 @@
 import React from 'react'
-import {mount} from 'enzyme'
+import { mount } from 'enzyme'
 import BottomBar from './BottomBar'
-
-describe('render', ()=>{
-    it('renders', ()=>{
-        const nak=mount(<BottomBar/>)
-        expect(nak).toBeDefined()
-    })
+import { HashRouter as Router } from 'react-router-dom'
+describe('render', () => {
+  it('renders', () => {
+    const nak = mount(
+      <Router>
+        <BottomBar />
+      </Router>
+    )
+    expect(nak).toBeDefined()
+  })
 })

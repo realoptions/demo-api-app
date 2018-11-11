@@ -4,7 +4,8 @@ import {
   updateDensity,
   updateRiskMetrics,
   updateOptions,
-  updateAllGraphs
+  updateAllGraphs,
+  filterIV
 } from './api'
 import {
   SELECT_MODEL,
@@ -16,7 +17,7 @@ import {
 const mockRO = {
   model: {
     riskmetric: () => Promise.resolve('hello'),
-    options: () => Promise.resolve(['hello', 'hello']),
+    options: () => Promise.resolve([{ at_value: 3, value: 4, iv: 5 }, 'hello']),
     density: () => Promise.resolve('hello'),
     constraints: () => Promise.resolve('hello')
   }
@@ -31,6 +32,15 @@ describe('getCacheResult', () => {
     return getCacheResult(null, () => Promise.resolve('hello')).then(result =>
       expect(result).toEqual('hello')
     )
+  })
+})
+describe('filterIV', () => {
+  const testArray = [{ value: 4, at_point: 3, iv: 2 }]
+  it('converts array to two arrays', () => {
+    expect(filterIV(testArray)).toEqual({
+      call: [{ value: 4, at_point: 3 }],
+      iv: [{ value: 2, at_point: 3 }]
+    })
   })
 })
 describe('updateFields', () => {
@@ -127,7 +137,11 @@ describe('updateOptions', () => {
         expect(dispatch.mock.calls.length).toBe(1),
         expect(dispatch.mock.calls[1][0]).toEqual({
           type: UPDATE_OPTIONS,
-          value: { call: 'hello', put: 'hello' }
+          value: {
+            call: [{ at_point: 3, value: 4 }],
+            iv: [{ at_point: 3, value: 5 }],
+            put: 'hello'
+          }
         })
       ])
     })

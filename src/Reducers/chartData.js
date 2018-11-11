@@ -17,7 +17,7 @@ export const riskMetric = genericType(
   { expected_shortfall: 0, value_at_risk: 0 },
   UPDATE_RISK_METRIC
 )
-export const option = genericType({ put: [], call: [] }, UPDATE_OPTIONS)
+export const option = genericType({ put: [], call: [], iv: [] }, UPDATE_OPTIONS)
 export const density = genericType([], UPDATE_DENSITY)
 export default combineReducers({
   riskMetric,

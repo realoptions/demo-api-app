@@ -44,21 +44,25 @@ describe('option data', () => {
   it('returns empty array by default', () => {
     expect(option(undefined, { type: 'something' })).toEqual({
       put: [],
-      call: []
+      call: [],
+      iv: []
     })
   })
   it('assigns array', () => {
     expect(
       option(undefined, {
         type: UPDATE_OPTIONS,
-        value: { put: testData, call: testData }
+        value: { put: testData, call: testData, iv: testData }
       })
-    ).toEqual({ put: testData, call: testData })
+    ).toEqual({ put: testData, call: testData, iv: testData })
   })
   it('does nothing if type is not update option and state already exists', () => {
     expect(
-      option({ put: testData, call: testData }, { type: 'something' })
-    ).toEqual({ put: testData, call: testData })
+      option(
+        { put: testData, call: testData, iv: testData },
+        { type: 'something' }
+      )
+    ).toEqual({ put: testData, call: testData, iv: testData })
   })
 })
 describe('density data', () => {

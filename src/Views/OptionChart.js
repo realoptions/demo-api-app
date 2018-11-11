@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withTheme } from '@material-ui/core/styles'
 const fakeArray = []
-export const Density = withTheme()(({ put, call, theme }) => (
+export const Option = withTheme()(({ put, call, iv, theme }) => (
   <NoApiKey>
     <OptionChart
       call={call}
@@ -16,10 +16,13 @@ export const Density = withTheme()(({ put, call, theme }) => (
       putColor={theme.palette.secondary.main}
       callColor={theme.palette.primary.main}
     />
-    <ImpliedVolatilityChart impliedVolatility={iv} />
+    <ImpliedVolatilityChart
+      impliedVolatility={iv}
+      lineColor={theme.palette.primary.main}
+    />
   </NoApiKey>
 ))
-Density.propTypes = {
+Option.propTypes = {
   put: PropTypes.arrayOf(
     PropTypes.shape({
       at_point: PropTypes.number.isRequired,
@@ -27,6 +30,12 @@ Density.propTypes = {
     })
   ).isRequired,
   call: PropTypes.arrayOf(
+    PropTypes.shape({
+      at_point: PropTypes.number.isRequired,
+      value: PropTypes.number.isRequired
+    })
+  ).isRequired,
+  iv: PropTypes.arrayOf(
     PropTypes.shape({
       at_point: PropTypes.number.isRequired,
       value: PropTypes.number.isRequired
@@ -43,9 +52,14 @@ Density.propTypes = {
     }).isRequired
   })
 }
-const mapStateToProps = ({ chartData: { density, riskMetric } }) => ({
-  density,
-  riskMetric
+const mapStateToProps = ({
+  chartData: {
+    options: { call, put, iv }
+  }
+}) => ({
+  call,
+  put,
+  iv
 })
 
-export default connect(mapStateToProps)(Density)
+export default connect(mapStateToProps)(Option)
