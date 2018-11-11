@@ -10,7 +10,7 @@ import Theme from './Themes'
 import DensityChart from './Views/DensityChart'
 import OptionChart from './Views/OptionChart'
 import Inputs from './Views/Inputs'
-import { HashRouter as Router, Route } from 'react-router-dom'
+import { HashRouter as Router, Route, Redirect, Switch } from 'react-router-dom'
 import { inputs, density, options } from './Routes'
 const theme = createMuiTheme(Theme)
 const store = createStore(modelApp)
@@ -22,7 +22,10 @@ class App extends Component {
           <Router>
             <div className="App">
               <MenuBar />
-              <Route path={inputs} component={Inputs} />
+              <Switch>
+                <Route path={inputs} component={Inputs} />
+                <Redirect from="/" to={inputs} exact />
+              </Switch>
               <Route path={density} component={DensityChart} />
               <Route path={options} component={OptionChart} />
               <BottomBar />

@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import Form from '../Components/Form'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import PropTypes from 'prop-types'
+
 export const Inputs = ({
   selected,
   updateFields,
@@ -16,12 +17,12 @@ export const Inputs = ({
   <NoApiKey>
     <Async promiseFn={updateFields(mdlfn, constraints, selected)}>
       <Async.Resolved>
-        {() => (
+        {constraints ? (
           <Form
             fields={constraints}
             onSubmit={updateAllGraphs(mdlfn, selected)}
           />
-        )}
+        ) : null}
       </Async.Resolved>
       <Async.Loading>
         <CircularProgress />

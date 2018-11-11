@@ -12,6 +12,7 @@ export const Option = withTheme()(({ put, call, iv, theme }) => (
       call={call}
       put={put}
       strikes={fakeArray}
+      sensitivity="Price"
       prices={fakeArray}
       putColor={theme.palette.secondary.main}
       callColor={theme.palette.primary.main}
@@ -54,7 +55,7 @@ Option.propTypes = {
 }
 const mapStateToProps = ({
   chartData: {
-    options: { call, put, iv }
+    option: { call, put, iv }
   }
 }) => ({
   call,

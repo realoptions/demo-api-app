@@ -15,7 +15,7 @@ const styles = {
     width: '100%'
   }
 }
-export const BottomBar = withStyles(styles)(({ classes }) => {
+const BottomBar = ({ classes }) => {
   const [selected, setSelected] = useState(0)
   const handleChange = (_, value) => {
     setSelected(value)
@@ -47,8 +47,8 @@ export const BottomBar = withStyles(styles)(({ classes }) => {
       />
     </BottomNavigation>
   )
-})
+}
 BottomBar.propTypes = {
   classes: PropTypes.object.isRequired
 }
-export default BottomBar
+export default withStyles(styles)(BottomBar)

@@ -43,6 +43,7 @@ export const updateFields = ({
       type: UPDATE_CONSTRAINTS,
       value
     })
+    return value
   })
 }
 
