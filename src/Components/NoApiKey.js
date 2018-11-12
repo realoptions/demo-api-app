@@ -6,7 +6,7 @@ const styles = theme => ({
   page: {
     marginTop: theme.mixins.toolbar.minHeight,
     marginBottom: theme.mixins.toolbar.minHeight,
-    backgroundColor: theme.common.white
+    backgroundColor: theme.palette.common.white
   },
   api: {
     paddingTop: 60
