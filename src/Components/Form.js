@@ -5,8 +5,6 @@ import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 const styles = theme => ({
   container: {
-    //display: 'flex',
-    //flexWrap: 'wrap',
     flexGrow: 1
   },
   textField: {
@@ -39,7 +37,7 @@ const Form = ({ fields, onSubmit, classes }) => {
       className={classes.container}
     >
       {Object.entries(fieldState).map(
-        ([name, { lower, upper, value = '' }]) => (
+        ([name, { lower, upper, value = (lower + upper) * 0.5 }]) => (
           <TextField
             {...errorHandler({ lower, upper, name }, value)}
             value={value}

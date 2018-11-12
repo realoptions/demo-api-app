@@ -2,11 +2,11 @@
   "name": "demo-api-app",
   "version": "0.1.0",
   "private": true,
-  "proxy":"http://localhost:8000",
+  "proxy": "http://localhost:8000",
   "dependencies": {
-    "@material-ui/core": "^3.3.2",
+    "@material-ui/core": "^3.4.0",
     "@material-ui/icons": "^3.0.1",
-    "option-charts": "0.0.4",
+    "option-charts": "0.0.5",
     "prop-types": "^15.6.2",
     "react": "^16.7.0-alpha.0",
     "react-async": "^3.8.1",
@@ -24,7 +24,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "download-docs": "./mockserver/fetch_yaml.sh",
-    "mock-api": "nohup ./mockserver/apisprout ./mockserver/openapi.yaml &"
+    "mock-api-background": "nohup ./mockserver/apisprout ./mockserver/openapi.yaml &",
+    "mock-api": "./mockserver/apisprout ./mockserver/openapi.yaml"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,json,css}": [
@@ -61,5 +62,4 @@
       "!src/index.js"
     ]
   }
-  
 }

@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import Form from '../Components/Form'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import PropTypes from 'prop-types'
+import { SET_ALL_REFRESH } from '../Actions/constants'
 
 export const Inputs = ({
   selected,
@@ -50,7 +51,8 @@ const mapDispatchToProps = dispatch => ({
       existingValue: constraints,
       selectedModel: selected
     }),
-  updateAllGraphs: (mdlfn, selected) => parameters =>
+  updateAllGraphs: (mdlfn, selected) => parameters => {
+    dispatch({ type: SET_ALL_REFRESH })
     updateAllGraphs({
       dispatch,
       selectedModel: selected,
@@ -59,6 +61,7 @@ const mapDispatchToProps = dispatch => ({
       optionType: 'call',
       sensitivityType: 'price'
     })
+  }
 })
 
 export default connect(
