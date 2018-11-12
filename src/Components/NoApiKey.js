@@ -6,11 +6,14 @@ const styles = theme => ({
   page: {
     marginTop: theme.mixins.toolbar.minHeight,
     marginBottom: theme.mixins.toolbar.minHeight
+  },
+  api: {
+    paddingTop: 60
   }
 })
 export const NoApiKey = withStyles(styles)(({ mdlfn, children, classes }) => (
   <div className={classes.page}>
-    {mdlfn ? children : <h3>Requires an API key!</h3>}
+    {mdlfn ? children : <h3 className={classes.api}>Requires an API key!</h3>}
   </div>
 ))
 NoApiKey.propTypes = {
