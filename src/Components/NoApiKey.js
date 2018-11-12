@@ -1,17 +1,23 @@
 import React from 'react'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-export const NoApiKey=({mdlfn, children})=>mdlfn?children:(
-    <h3>Requires an API key!</h3>
-)
-NoApiKey.propTypes={
-    mdlfn:PropTypes.object,
-    children:PropTypes.node.isRequired
+import { withStyles } from '@material-ui/core/styles'
+const styles = theme => ({
+  page: {
+    marginTop: theme.mixins.toolbar.minHeight,
+    marginBottom: theme.mixins.toolbar.minHeight
+  }
+})
+export const NoApiKey = withStyles(styles)(({ mdlfn, children, classes }) => (
+  <div className={classes.page}>
+    {mdlfn ? children : <h3>Requires an API key!</h3>}
+  </div>
+))
+NoApiKey.propTypes = {
+  mdlfn: PropTypes.object,
+  children: PropTypes.node.isRequired
 }
 
-const mapStateToProps=({mdlfn})=>({mdlfn})
+const mapStateToProps = ({ mdlfn }) => ({ mdlfn })
 
-export default connect(
-    mapStateToProps
-)(NoApiKey)
-
+export default connect(mapStateToProps)(NoApiKey)

@@ -5,11 +5,14 @@ import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 const styles = theme => ({
   container: {
-    flexGrow: 1
+    flexGrow: 1,
+    paddingTop: theme.spacing.unit,
+    overflow: 'scroll'
   },
   textField: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
+    marginBottom: theme.spacing.unit,
     width: 200
   }
 })

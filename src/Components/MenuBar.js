@@ -38,7 +38,7 @@ export const MenuBar = withStyles(styles)(
     }
     const onClose = () => setOpen(null)
     return (
-      <AppBar position="static">
+      <AppBar position="fixed">
         <Toolbar>
           <Typography variant="h6" color="inherit" noWrap>
             Options: {convertOptionsToLabel(options, selected)}
