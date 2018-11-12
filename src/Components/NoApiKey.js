@@ -5,7 +5,8 @@ import { withStyles } from '@material-ui/core/styles'
 const styles = theme => ({
   page: {
     marginTop: theme.mixins.toolbar.minHeight,
-    marginBottom: theme.mixins.toolbar.minHeight
+    marginBottom: theme.mixins.toolbar.minHeight,
+    backgroundColor: theme.common.white
   },
   api: {
     paddingTop: 60
