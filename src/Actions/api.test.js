@@ -17,7 +17,7 @@ import {
 const mockRO = {
   model: {
     riskmetric: () => Promise.resolve('hello'),
-    options: () => Promise.resolve([{ at_value: 3, value: 4, iv: 5 }, 'hello']),
+    options: () => Promise.resolve([{ at_point: 3, value: 4, iv: 5 }]),
     density: () => Promise.resolve('hello'),
     constraints: () => Promise.resolve('hello')
   }
@@ -53,25 +53,25 @@ describe('updateFields', () => {
       value: undefined
     })
   })
-  it('dispatches twice if realOptions', () => {
+  it('dispatches twice if realOptions', done => {
     const dispatch = jest.fn()
     updateFields({
       dispatch,
       realOptions: mockRO,
       selectedModel: 'model'
-    }).then(() => {
-      return Promise.all([
-        expect(dispatch.mock.calls.length).toBe(2),
-        expect(dispatch.mock.calls[0][0]).toEqual({
-          type: SELECT_MODEL,
-          value: 'model'
-        }),
-        expect(dispatch.mock.calls[1][0]).toEqual({
-          type: UPDATE_CONSTRAINTS,
-          value: 'hello'
-        })
-      ])
     })
+    setTimeout(() => {
+      expect(dispatch.mock.calls.length).toBe(2)
+      expect(dispatch.mock.calls[0][0]).toEqual({
+        type: SELECT_MODEL,
+        value: 'model'
+      })
+      expect(dispatch.mock.calls[1][0]).toEqual({
+        type: UPDATE_CONSTRAINTS,
+        value: 'hello'
+      })
+      done()
+    }, 30)
   })
 })
 describe('updateDensity', () => {
@@ -80,21 +80,21 @@ describe('updateDensity', () => {
     expect(updateDensity({ dispatch })).toBeUndefined()
     expect(dispatch.mock.calls.length).toBe(0)
   })
-  it('dispatches once if realOptions', () => {
+  it('dispatches once if realOptions', done => {
     const dispatch = jest.fn()
     updateDensity({
       dispatch,
       realOptions: mockRO,
       selectedModel: 'model'
-    }).then(() => {
-      return Promise.all([
-        expect(dispatch.mock.calls.length).toBe(1),
-        expect(dispatch.mock.calls[1][0]).toEqual({
-          type: UPDATE_DENSITY,
-          value: 'hello'
-        })
-      ])
     })
+    setTimeout(() => {
+      expect(dispatch.mock.calls.length).toBe(1)
+      expect(dispatch.mock.calls[0][0]).toEqual({
+        type: UPDATE_DENSITY,
+        value: 'hello'
+      })
+      done()
+    }, 30)
   })
 })
 describe('updateRiskMetrics', () => {
@@ -103,21 +103,21 @@ describe('updateRiskMetrics', () => {
     expect(updateRiskMetrics({ dispatch })).toBeUndefined()
     expect(dispatch.mock.calls.length).toBe(0)
   })
-  it('dispatches once if realOptions', () => {
+  it('dispatches once if realOptions', done => {
     const dispatch = jest.fn()
     updateRiskMetrics({
       dispatch,
       realOptions: mockRO,
       selectedModel: 'model'
-    }).then(() => {
-      return Promise.all([
-        expect(dispatch.mock.calls.length).toBe(1),
-        expect(dispatch.mock.calls[1][0]).toEqual({
-          type: UPDATE_RISK_METRIC,
-          value: 'hello'
-        })
-      ])
     })
+    setTimeout(() => {
+      expect(dispatch.mock.calls.length).toBe(1)
+      expect(dispatch.mock.calls[0][0]).toEqual({
+        type: UPDATE_RISK_METRIC,
+        value: 'hello'
+      })
+      done()
+    }, 30)
   })
 })
 describe('updateOptions', () => {
@@ -126,24 +126,24 @@ describe('updateOptions', () => {
     expect(updateOptions({ dispatch })).toBeUndefined()
     expect(dispatch.mock.calls.length).toBe(0)
   })
-  it('dispatches once if realOptions', () => {
+  it('dispatches once if realOptions', done => {
     const dispatch = jest.fn()
     updateOptions({
       dispatch,
       realOptions: mockRO,
       selectedModel: 'model'
-    }).then(() => {
-      return Promise.all([
-        expect(dispatch.mock.calls.length).toBe(1),
-        expect(dispatch.mock.calls[1][0]).toEqual({
+    })
+    setTimeout(() => {
+      expect(dispatch.mock.calls.length).toBe(1),
+        expect(dispatch.mock.calls[0][0]).toEqual({
           type: UPDATE_OPTIONS,
           value: {
             call: [{ at_point: 3, value: 4 }],
             iv: [{ at_point: 3, iv: 5 }],
-            put: 'hello'
+            put: [{ at_point: 3, value: 4, iv: 5 }]
           }
         })
-      ])
+      done()
     })
   })
 })
