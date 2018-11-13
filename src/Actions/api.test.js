@@ -12,13 +12,17 @@ import {
   UPDATE_CONSTRAINTS,
   UPDATE_DENSITY,
   UPDATE_RISK_METRIC,
-  UPDATE_OPTIONS
+  UPDATE_OPTIONS,
+  UPDATE_MARKET_CONSTRAINTS
 } from './constants'
 const mockRO = {
   model: {
     riskmetric: () => Promise.resolve('hello'),
     options: () => Promise.resolve([{ at_point: 3, value: 4, iv: 5 }]),
     density: () => Promise.resolve('hello'),
+    constraints: () => Promise.resolve('hello')
+  },
+  market: {
     constraints: () => Promise.resolve('hello')
   }
 }
@@ -61,13 +65,17 @@ describe('updateFields', () => {
       selectedModel: 'model'
     })
     setTimeout(() => {
-      expect(dispatch.mock.calls.length).toBe(2)
+      expect(dispatch.mock.calls.length).toBe(3)
       expect(dispatch.mock.calls[0][0]).toEqual({
         type: SELECT_MODEL,
         value: 'model'
       })
       expect(dispatch.mock.calls[1][0]).toEqual({
         type: UPDATE_CONSTRAINTS,
+        value: 'hello'
+      })
+      expect(dispatch.mock.calls[2][0]).toEqual({
+        type: UPDATE_MARKET_CONSTRAINTS,
         value: 'hello'
       })
       done()

@@ -26,27 +26,43 @@ export const errorHandler = ({ lower, upper, name }, inputValue) => {
 
 const onChange = (key, state, fn) => e =>
   fn({ ...state, [key]: { ...state[key], value: e.target.value } })
-const onSubmitHOC = (fieldState, onSubmit) => e => {
+const onSubmitHOC = (modelFieldState, marketFieldState, onSubmit) => e => {
   e.preventDefault()
-  onSubmit(fieldState)
+  onSubmit({ modelFields: modelFieldState, marketFields: marketFieldState })
 }
-const Form = ({ fields, onSubmit, classes }) => {
-  const [fieldState, setFieldStateValue] = useState(fields)
+const Form = ({ modelFields, marketFields, onSubmit, classes }) => {
+  const [modelFieldState, setModelFieldStateValue] = useState(modelFields)
+  const [marketFieldState, setMarketFieldStateValue] = useState(marketFields)
   return (
     <form
-      onSubmit={onSubmitHOC(fieldState, onSubmit)}
+      onSubmit={onSubmitHOC(modelFieldState, marketFieldState, onSubmit)}
       noValidate
       autoComplete="off"
       className={classes.container}
     >
-      {Object.entries(fieldState).map(
+      {Object.entries(marketFieldState).map(
         ([name, { lower, upper, value = (lower + upper) * 0.5 }]) => (
           <TextField
             {...errorHandler({ lower, upper, name }, value)}
             value={value}
             className={classes.textField}
             key={name}
-            onChange={onChange(name, fieldState, setFieldStateValue)}
+            onChange={onChange(
+              name,
+              marketFieldState,
+              setMarketFieldStateValue
+            )}
+          />
+        )
+      )}
+      {Object.entries(modelFieldState).map(
+        ([name, { lower, upper, value = (lower + upper) * 0.5 }]) => (
+          <TextField
+            {...errorHandler({ lower, upper, name }, value)}
+            value={value}
+            className={classes.textField}
+            key={name}
+            onChange={onChange(name, modelFieldState, setModelFieldStateValue)}
           />
         )
       )}
@@ -62,7 +78,8 @@ const Form = ({ fields, onSubmit, classes }) => {
   )
 }
 Form.propTypes = {
-  fields: PropTypes.object.isRequired,
+  marketFields: PropTypes.object.isRequired,
+  modelFields: PropTypes.object.isRequired,
   onSubmit: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired
 }

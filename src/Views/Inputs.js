@@ -7,21 +7,32 @@ import Form from '../Components/Form'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import PropTypes from 'prop-types'
 import { SET_ALL_REFRESH } from '../Actions/constants'
-
+import { moldAttributes, generateStrikes } from '../Actions/transformScheme'
+const NUM_STRIKES = 10
+const PERCENT_RANGE = 0.5
 export const Inputs = ({
   selected,
   updateFields,
   mdlfn,
-  constraints,
+  modelConstraints,
+  marketConstraints,
   updateAllGraphs
 }) => (
   <NoApiKey>
-    <Async promiseFn={updateFields(mdlfn, constraints, selected)}>
+    <Async
+      promiseFn={updateFields(
+        mdlfn,
+        modelConstraints,
+        marketConstraints,
+        selected
+      )}
+    >
       <Async.Resolved>
-        {constraints ? (
+        {marketConstraints && modelConstraints ? (
           <Form
-            fields={constraints}
-            onSubmit={updateAllGraphs(mdlfn, selected)}
+            marketFields={marketConstraints}
+            modelFields={modelConstraints}
+            onSubmit={updateAllGraphs(mdlfn, selected, modelConstraints)}
           />
         ) : null}
       </Async.Resolved>
@@ -36,27 +47,37 @@ Inputs.propTypes = {
   updateFields: PropTypes.func.isRequired,
   updateAllGraphs: PropTypes.func.isRequired,
   mdlfn: PropTypes.object,
-  constraints: PropTypes.object
+  modelConstraints: PropTypes.object,
+  marketConstraints: PropTypes.object
 }
-const mapStateToProps = ({ mdlfn, models: { selected }, constraints }) => ({
+const mapStateToProps = ({
+  mdlfn,
+  models: { selected },
+  constraints: { marketConstraints, modelConstraints }
+}) => ({
   mdlfn,
   selected,
-  constraints
+  modelConstraints,
+  marketConstraints
 })
 const mapDispatchToProps = dispatch => ({
-  updateFields: (mdlfn, constraints, selected) => () =>
+  updateFields: (mdlfn, modelConstraints, marketConstraints, selected) => () =>
     updateFields({
       dispatch,
       realOptions: mdlfn,
-      existingValue: constraints,
+      existingModelValue: modelConstraints,
+      existingMarketValue: marketConstraints,
       selectedModel: selected
     }),
-  updateAllGraphs: (mdlfn, selected) => parameters => {
+  updateAllGraphs: (mdlfn, selected) => ({ modelFields, marketFields }) => {
     dispatch({ type: SET_ALL_REFRESH })
     updateAllGraphs({
       dispatch,
       selectedModel: selected,
-      parameters,
+      parameters: moldAttributes(
+        { modelParameters: modelFields, marketParameters: marketFields },
+        generateStrikes(marketFields.asset, NUM_STRIKES, PERCENT_RANGE)
+      ),
       realOptions: mdlfn,
       optionType: 'call',
       sensitivityType: 'price'

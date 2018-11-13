@@ -42,7 +42,8 @@ describe('functionality', () => {
           selected="model"
           updateFields={updateFields}
           updateAllGraphs={updateAllGraphs}
-          constraints={{ model: { upper: 4, lower: 2 } }}
+          modelConstraints={{ model: { upper: 4, lower: 2 } }}
+          marketConstraints={{ model: { upper: 4, lower: 2 } }}
         />
       </Provider>
     )
@@ -60,7 +61,8 @@ describe('functionality', () => {
           selected="model"
           updateFields={updateFields}
           updateAllGraphs={updateAllGraphs}
-          constraints={{ model: { upper: 4, lower: 2 } }}
+          modelConstraints={{ model: { upper: 4, lower: 2 } }}
+          marketConstraints={{ model: { upper: 4, lower: 2 } }}
         />
       </Provider>
     )

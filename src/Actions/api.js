@@ -3,7 +3,8 @@ import {
   UPDATE_CONSTRAINTS,
   UPDATE_RISK_METRIC,
   UPDATE_DENSITY,
-  UPDATE_OPTIONS
+  UPDATE_OPTIONS,
+  UPDATE_MARKET_CONSTRAINTS
 } from './constants'
 //exported for testing
 export const getCacheResult = (existingValue, fn) => {
@@ -26,7 +27,8 @@ export const updateFields = ({
   dispatch,
   selectedModel,
   realOptions,
-  existingValue
+  existingModelValue,
+  existingMarketValue
 }) => {
   dispatch({
     type: SELECT_MODEL,
@@ -35,16 +37,27 @@ export const updateFields = ({
   if (!realOptions) {
     return
   }
-  return getCacheResult(
-    existingValue,
-    realOptions[selectedModel].constraints
-  ).then(value => {
-    dispatch({
-      type: UPDATE_CONSTRAINTS,
-      value
-    })
-    return value
-  })
+  return Promise.all([
+    getCacheResult(
+      existingModelValue,
+      realOptions[selectedModel].constraints
+    ).then(value => {
+      dispatch({
+        type: UPDATE_CONSTRAINTS,
+        value
+      })
+      return value
+    }),
+    getCacheResult(existingMarketValue, realOptions.market.constraints).then(
+      value => {
+        dispatch({
+          type: UPDATE_MARKET_CONSTRAINTS,
+          value
+        })
+        return value
+      }
+    )
+  ])
 }
 
 export const updateDensity = ({

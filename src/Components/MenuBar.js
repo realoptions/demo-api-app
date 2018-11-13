@@ -25,7 +25,7 @@ const convertOptionsToName = (options, selectedLabel) =>
   options.find(({ label }) => label === selectedLabel).name
 
 export const MenuBar = withStyles(styles)(
-  ({ options, onSelect, selected, mdlfn, classes }) => {
+  ({ options, onSelect, selected, mdlfn, classes, marketConstraints }) => {
     const [open, setOpen] = useState(null)
     const onClick = e => setOpen(e.currentTarget)
     const onChoice = e => {
@@ -33,7 +33,8 @@ export const MenuBar = withStyles(styles)(
       onSelect(
         selected,
         convertOptionsToName(options, e.target.innerText),
-        mdlfn
+        mdlfn,
+        marketConstraints
       )
     }
     const onClose = () => setOpen(null)
@@ -79,13 +80,23 @@ MenuBar.propTypes = {
     })
   ).isRequired,
   onSelect: PropTypes.func.isRequired,
-  selected: PropTypes.string.isRequired
+  selected: PropTypes.string.isRequired,
+  marketConstraints: PropTypes.object
 }
-const mapStateToProps = ({ models, mdlfn }) => ({ ...models, mdlfn })
+const mapStateToProps = ({
+  models,
+  mdlfn,
+  constraints: { marketConstraints }
+}) => ({ ...models, mdlfn, marketConstraints })
 const mapDispatchToProps = dispatch => ({
-  onSelect: (selected, value, realOptions) =>
+  onSelect: (selected, value, realOptions, marketConstraints) =>
     selected !== value &&
-    updateFields({ dispatch, selectedModel: value, realOptions })
+    updateFields({
+      dispatch,
+      selectedModel: value,
+      realOptions,
+      existingMarketValue: marketConstraints
+    })
 })
 export default connect(
   mapStateToProps,
