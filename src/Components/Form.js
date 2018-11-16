@@ -17,17 +17,47 @@ const styles = theme => ({
     width: 200
   }
 })
-export const errorHandler = ({ lower, upper, name }, inputValue) => {
-  if (inputValue === '' || (lower < inputValue && inputValue < upper)) {
+export const errorHandler = ({ lower, upper, name, types }, inputValue) => {
+  const isInBetween = lower < inputValue && inputValue < upper
+  const isBlank = inputValue === ''
+  const isCorrectType =
+    (types === 'int' && Number.isInteger(inputValue)) ||
+    (types === 'float' && Number.isFinite(inputValue))
+  if (isBlank || (isInBetween && isCorrectType)) {
     return { label: name, error: false }
-  } else {
+  } else if (!isInBetween) {
     return { label: 'Value out of bounds', error: true }
+  } else if (!isCorrectType) {
+    return { label: `Value needs to be of type ${types}`, error: true }
   }
 }
 const flattenValue = flattenObj('value')
+//export for testing
+export const allowedValues = value => {
+  if (value === '') {
+    return true
+  }
+  if (value.substr(-1) === '.') {
+    return true
+  }
+  if (isNaN(parseFloat(value))) {
+    return true
+  }
+  return false
+}
 const onChange = (key, state, fn) => e =>
-  fn({ ...state, [key]: { ...state[key], value: e.target.value } })
+  fn({
+    ...state,
+    [key]: {
+      ...state[key],
+      value: allowedValues(e.target.value)
+        ? e.target.value
+        : parseFloat(e.target.value)
+    }
+  })
 
+const convertToType = (value, types) =>
+  types === 'int' ? Math.round(value) : value
 //export for testing
 export const onSubmitHOC = (
   modelFieldState,
@@ -40,12 +70,24 @@ export const onSubmitHOC = (
     marketFields: flattenValue(marketFieldState)
   })
 }
+
 //export for testing
 export const setValue = obj =>
   Object.entries(obj).reduce(
-    (aggr, [name, { lower, upper, value = (lower + upper) * 0.5 }]) => ({
+    (
+      aggr,
+      [
+        name,
+        {
+          lower,
+          upper,
+          types,
+          value = convertToType((lower + upper) * 0.5, types)
+        }
+      ]
+    ) => ({
       ...aggr,
-      [name]: { lower, upper, value }
+      [name]: { lower, upper, value, types }
     }),
     {}
   )
@@ -64,9 +106,9 @@ const Form = ({ modelFields, marketFields, onSubmit, classes }) => {
       className={classes.container}
     >
       {Object.entries(marketFieldState).map(
-        ([name, { lower, upper, value }]) => (
+        ([name, { lower, upper, value, types }]) => (
           <TextField
-            {...errorHandler({ lower, upper, name }, value)}
+            {...errorHandler({ lower, upper, name, types }, value)}
             value={value}
             className={classes.textField}
             key={name}
@@ -79,12 +121,13 @@ const Form = ({ modelFields, marketFields, onSubmit, classes }) => {
         )
       )}
       {Object.entries(modelFieldState).map(
-        ([name, { lower, upper, value }]) => (
+        ([name, { lower, upper, value, types }]) => (
           <TextField
-            {...errorHandler({ lower, upper, name }, value)}
+            {...errorHandler({ lower, upper, name, types }, value)}
             value={value}
             className={classes.textField}
             key={name}
+            type="number"
             onChange={onChange(name, modelFieldState, setModelFieldStateValue)}
           />
         )

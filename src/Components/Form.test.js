@@ -1,5 +1,10 @@
 import React from 'react'
-import Form, { errorHandler, onSubmitHOC, setValue } from './Form'
+import Form, {
+  errorHandler,
+  onSubmitHOC,
+  setValue,
+  allowedValues
+} from './Form'
 import { mount } from 'enzyme'
 import TextField from '@material-ui/core/TextField'
 describe('render', () => {
@@ -19,19 +24,55 @@ describe('render', () => {
 describe('error handling', () => {
   it('shows error when beyond bounds', () => {
     expect(
-      errorHandler({ lower: -1, upper: 1, name: 'some name' }, -2)
+      errorHandler(
+        { lower: -1, upper: 1, types: 'float', name: 'some name' },
+        -2
+      )
     ).toEqual({
       label: 'Value out of bounds',
       error: true
     })
   })
   it('shows label when in bounds', () => {
-    expect(errorHandler({ lower: -1, upper: 1, name: 'some name' }, 0)).toEqual(
-      {
-        label: 'some name',
-        error: false
-      }
-    )
+    expect(
+      errorHandler(
+        { lower: -1, upper: 1, types: 'float', name: 'some name' },
+        0
+      )
+    ).toEqual({
+      label: 'some name',
+      error: false
+    })
+  })
+  it('shows error when not correct type', () => {
+    expect(
+      errorHandler(
+        { lower: -1, upper: 1, types: 'int', name: 'some name' },
+        0.5
+      )
+    ).toEqual({
+      label: 'Value needs to be of type int',
+      error: true
+    })
+  })
+  it('shows error when not correct type and out of bounds', () => {
+    expect(
+      errorHandler(
+        { lower: -1, upper: 1, types: 'int', name: 'some name' },
+        2.5
+      )
+    ).toEqual({
+      label: 'Value out of bounds',
+      error: true
+    })
+  })
+  it('shows label when blank', () => {
+    expect(
+      errorHandler({ lower: -1, upper: 1, types: 'int', name: 'some name' }, '')
+    ).toEqual({
+      label: 'some name',
+      error: false
+    })
   })
 })
 describe('functionality', () => {
@@ -134,5 +175,23 @@ describe('setValue', () => {
     expect(setValue(obj)).toEqual({
       someName: { lower: 0, upper: 3, value: 2 }
     })
+  })
+})
+
+describe('allowedValues', () => {
+  it('allows blank', () => {
+    expect(allowedValues('')).toEqual(true)
+  })
+  it('allows strings that end in .', () => {
+    expect(allowedValues('.')).toEqual(true)
+    expect(allowedValues('5.')).toEqual(true)
+    expect(allowedValues('asdf.')).toEqual(true)
+  })
+  it('allows strings that cannot be parsed as float', () => {
+    expect(allowedValues('asdf')).toEqual(true)
+  })
+  it('does not allow strings that can be parsed as float', () => {
+    expect(allowedValues('5.5')).toEqual(false)
+    expect(allowedValues('.5')).toEqual(false)
   })
 })
