@@ -127,7 +127,6 @@ const Form = ({ modelFields, marketFields, onSubmit, classes }) => {
             value={value}
             className={classes.textField}
             key={name}
-            type="number"
             onChange={onChange(name, modelFieldState, setModelFieldStateValue)}
           />
         )
