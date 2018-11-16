@@ -32,7 +32,7 @@ export const Inputs = ({
           <Form
             marketFields={marketConstraints}
             modelFields={modelConstraints}
-            onSubmit={updateAllGraphs(mdlfn, selected, modelConstraints)}
+            onSubmit={updateAllGraphs(mdlfn, selected)}
           />
         ) : null}
       </Async.Resolved>
@@ -48,7 +48,12 @@ Inputs.propTypes = {
   updateAllGraphs: PropTypes.func.isRequired,
   mdlfn: PropTypes.object,
   modelConstraints: PropTypes.object,
-  marketConstraints: PropTypes.object
+  marketConstraints: PropTypes.shape({
+    asset: PropTypes.shape({
+      lower: PropTypes.number.isRequired,
+      upper: PropTypes.number.isRequired
+    }).isRequired
+  })
 }
 const mapStateToProps = ({
   mdlfn,
@@ -60,7 +65,8 @@ const mapStateToProps = ({
   modelConstraints,
   marketConstraints
 })
-const mapDispatchToProps = dispatch => ({
+//exported for testing
+export const mapDispatchToProps = dispatch => ({
   updateFields: (mdlfn, modelConstraints, marketConstraints, selected) => () =>
     updateFields({
       dispatch,
