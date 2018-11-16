@@ -14,13 +14,14 @@ import { HashRouter as Router, Route, Redirect, Switch } from 'react-router-dom'
 import { inputs, density, options } from './Routes'
 const theme = createMuiTheme(Theme)
 const store = createStore(modelApp)
+const height = { height: '100vh' }
 class App extends Component {
   render() {
     return (
       <Provider store={store}>
         <MuiThemeProvider theme={theme}>
           <Router>
-            <div className="App">
+            <div className="App" style={height}>
               <MenuBar />
               <Switch>
                 <Route path={inputs} component={Inputs} />

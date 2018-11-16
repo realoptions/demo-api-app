@@ -70,7 +70,16 @@ export const onSubmitHOC = (
     marketFields: flattenValue(marketFieldState)
   })
 }
-
+const convertLowerUpperToValue = (name, lower, upper) => {
+  switch (name) {
+    case 'asset':
+      return 50
+    case 'maturity':
+      return 1
+    default:
+      return (lower + upper) * 0.5
+  }
+}
 //export for testing
 export const setValue = obj =>
   Object.entries(obj).reduce(
@@ -82,7 +91,10 @@ export const setValue = obj =>
           lower,
           upper,
           types,
-          value = convertToType((lower + upper) * 0.5, types)
+          value = convertToType(
+            convertLowerUpperToValue(name, lower, upper),
+            types
+          )
         }
       ]
     ) => ({

@@ -6,7 +6,6 @@ const styles = theme => ({
   page: {
     marginTop: theme.mixins.toolbar.minHeight,
     marginBottom: theme.mixins.toolbar.minHeight,
-    height: '100em',
     backgroundColor: theme.palette.common.white
   },
   api: {
