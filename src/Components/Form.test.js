@@ -1,5 +1,5 @@
 import React from 'react'
-import Form, { errorHandler } from './Form'
+import Form, { errorHandler, onSubmitHOC, setValue } from './Form'
 import { mount } from 'enzyme'
 import TextField from '@material-ui/core/TextField'
 describe('render', () => {
@@ -77,16 +77,62 @@ describe('functionality', () => {
         marketFields={fields}
         onSubmit={({ modelFields }) => {
           expect(modelFields).toEqual({
-            'some name': {
-              lower: -1,
-              upper: 1,
-              value: -2
-            }
+            'some name': -2
           })
         }}
       />
     )
 
     form.find('form').simulate('submit')
+  })
+})
+describe('onSubmitHOC', () => {
+  const e = {
+    preventDefault: () => {}
+  }
+  it('returns flattened fields', () => {
+    const modelFieldState = {
+      'some name': {
+        lower: -1,
+        upper: 1,
+        value: -2
+      }
+    }
+    const marketFieldState = modelFieldState
+    const onSubmit = jest.fn()
+    onSubmitHOC(modelFieldState, marketFieldState, onSubmit)(e)
+    expect(onSubmit.mock.calls[0][0]).toEqual({
+      modelFields: {
+        'some name': -2
+      },
+      marketFields: {
+        'some name': -2
+      }
+    })
+  })
+})
+describe('setValue', () => {
+  it('returns average of upper and lower if value does not exist', () => {
+    const obj = {
+      someName: {
+        upper: 3,
+        lower: 0
+      }
+    }
+    expect(setValue(obj)).toEqual({
+      someName: { lower: 0, upper: 3, value: 1.5 }
+    })
+  })
+  it('returns value if value does exist', () => {
+    const obj = {
+      someName: {
+        upper: 3,
+        lower: 0,
+        value: 2
+      }
+    }
+    expect(setValue(obj)).toEqual({
+      someName: { lower: 0, upper: 3, value: 2 }
+    })
   })
 })
