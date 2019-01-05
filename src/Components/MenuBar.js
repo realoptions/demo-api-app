@@ -30,7 +30,6 @@ export const MenuBar = withStyles(styles)(
     const onClick = e => setOpen(e.currentTarget)
     const onChoice = e => {
       setOpen(null)
-      console.log(e.target)
       onSelect(
         selected,
         convertOptionsToName(options, e.target.innerText),
@@ -83,7 +82,7 @@ MenuBar.propTypes = {
   onSelect: PropTypes.func.isRequired,
   selected: PropTypes.string.isRequired,
   marketConstraints: PropTypes.object,
-  mdlfn: PropTypes.object.isRequired
+  mdlfn: PropTypes.object
 }
 const mapStateToProps = ({
   models,
