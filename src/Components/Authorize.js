@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 
-const onChange = (state, fn) => e => fn(e.target.value)
+const onChange = (_state, fn) => e => fn(e.target.value)
 const onSubmitHOC = (api, onSubmit) => e => {
   e.preventDefault()
   onSubmit(api)
