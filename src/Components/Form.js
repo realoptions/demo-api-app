@@ -32,12 +32,19 @@ export const errorHandler = ({ lower, upper, name, types }, inputValue) => {
   }
 }
 const flattenValue = flattenObj('value')
+
 //export for testing
 export const allowedValues = value => {
   if (value === '') {
     return true
   }
-  if (value.substr(-1) === '.') {
+  if (value === '.' || value.substr(-1) === '.') {
+    return true
+  }
+  if (
+    (value.startsWith('0.') || value.startsWith('.')) &&
+    value.substr(-1) === '0'
+  ) {
     return true
   }
   if (isNaN(parseFloat(value))) {
