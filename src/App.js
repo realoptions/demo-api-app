@@ -19,6 +19,7 @@ const styles = theme => ({
     textAlign: 'center'
   }
 })
+const hght = { height: 20 }
 const theme = createMuiTheme(Theme)
 const store = createStore(modelApp)
 const App = ({ classes }) => (
@@ -27,6 +28,7 @@ const App = ({ classes }) => (
       <Router>
         <div className={classes.app}>
           <MenuBar />
+          <div style={hght} />
           <Switch>
             <Route path={inputs} component={Inputs} />
             <Redirect from="/" to={inputs} exact />
