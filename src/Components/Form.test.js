@@ -187,6 +187,19 @@ describe('allowedValues', () => {
     expect(allowedValues('5.')).toEqual(true)
     expect(allowedValues('asdf.')).toEqual(true)
   })
+  it('allows strings that begin with .', () => {
+    expect(allowedValues('.')).toEqual(true)
+    expect(allowedValues('.0')).toEqual(true)
+  })
+  it('allows strings that begin with 0.', () => {
+    expect(allowedValues('0.')).toEqual(true)
+    expect(allowedValues('0.0')).toEqual(true)
+  })
+  it('allows strings that end with 0.', () => {
+    expect(allowedValues('0.0')).toEqual(true)
+    expect(allowedValues('0.00')).toEqual(true)
+    expect(allowedValues('.00')).toEqual(true)
+  })
   it('allows strings that cannot be parsed as float', () => {
     expect(allowedValues('asdf')).toEqual(true)
   })

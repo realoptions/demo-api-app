@@ -70,7 +70,6 @@ export const updateDensity = ({
     return
   }
   return realOptions[selectedModel].density(parameters).then(value => {
-    console.log(value)
     dispatch({
       type: UPDATE_DENSITY,
       value
@@ -87,7 +86,6 @@ export const updateRiskMetrics = ({
     return
   }
   return realOptions[selectedModel].riskmetric(parameters).then(value => {
-    console.log(value)
     dispatch({
       type: UPDATE_RISK_METRIC,
       value
@@ -114,7 +112,6 @@ export const updateOptions = ({
     realOptions[selectedModel].options(parameters, 'put', sensitivityType)
   ]).then(([callAndIV, put]) => {
     const { call, iv } = filterIV(callAndIV)
-    console.log({ call, put, iv })
     dispatch({
       type: UPDATE_OPTIONS,
       value: { call, put, iv }

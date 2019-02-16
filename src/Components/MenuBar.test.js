@@ -124,7 +124,6 @@ describe('functionality', () => {
       .at(1)
       .simulate('click')
     const cgmyMenuItem = m.find(MenuItem).at(1) //cgmy
-    console.log(cgmyMenuItem.html())
     cgmyMenuItem.simulate('click', { target: { innerText: 'CGMY' } })
     expect(onSelect.mock.calls.length).toEqual(1)
     expect(onSelect.mock.calls[0][0]).toEqual('heston')
