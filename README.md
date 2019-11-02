@@ -2,8 +2,8 @@
 | :---------------: | :-----------------: |
 | ![lin-badge]      | ![cov-badge]        |
 
-[lin-badge]: https://travis-ci.com/realoptions/demo-api-app.svg?branch=master "Travis build status"
-[lin-link]:  https://travis-ci.com/realoptions/demo-api-app "Travis build status"
+[lin-badge]: https://github.com/realoptions/demo-api-app/workflows/test/badge.svg
+[lin-link]:  https://github.com/realoptions/demo-api-app/actions
 [cov-badge]: https://codecov.io/gh/realoptions/demo-api-app/branch/master/graph/badge.svg
 [cov-link]:  https://codecov.io/gh/realoptions/demo-api-app
 
