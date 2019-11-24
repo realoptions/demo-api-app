@@ -122,7 +122,7 @@ export const updateAllGraphs = ({
   dispatch,
   selectedModel,
   parameters,
-  optionType,
+  //optionType,
   sensitivityType,
   realOptions
 }) =>
@@ -143,7 +143,7 @@ export const updateAllGraphs = ({
       dispatch,
       selectedModel,
       parameters,
-      optionType,
+      //optionType,
       sensitivityType,
       realOptions
     })

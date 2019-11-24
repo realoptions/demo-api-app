@@ -85,7 +85,6 @@ export const mapDispatchToProps = dispatch => ({
         generateStrikes(marketFields.asset, NUM_STRIKES, PERCENT_RANGE)
       ),
       realOptions: mdlfn,
-      optionType: 'call',
       sensitivityType: 'price'
     })
   }
